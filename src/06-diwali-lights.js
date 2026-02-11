@@ -39,4 +39,46 @@
  */
 export function diwaliLightsPlan(lightStrings, budget) {
   // Your code here
+
+  if ( !Array.isArray(lightStrings) || budget <=0 || typeof(budget) ==undefined || lightStrings.length==0 || typeof(budget) == 'string'  ){ 
+    return { "selected": [], "totalLength": 0, "totalCost": 0 }
+  }
+  let items_selected = []
+  let totLen = 0
+  let totCost = 0 
+
+
+  for ( const item of lightStrings){
+    let meter_price = 0 
+
+    if ( item.color == 'golden'){ 
+        meter_price=50 
+
+    }else if (item.color=='multicolor' ) { 
+        meter_price=40 
+
+    } else if (item.color == 'white' ) { 
+        meter_price = 30
+    }   
+    else{
+      meter_price = 35
+    }
+
+
+    if ( (totCost + (item.length * meter_price)) <= budget ) { 
+          items_selected.push({"color" :  item.color , "length" : item.length , "cost" : item.length * meter_price})
+          totLen += item.length
+          totCost += item.length * meter_price
+    }
+    else{ 
+      break 
+    }
+
 }
+return { "selected" : items_selected , "totalLength" : totLen , "totalCost" : totCost} 
+
+}
+
+
+
+console.log(diwaliLightsPlan([{ color: "golden", length: 4 }],500))

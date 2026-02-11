@@ -28,4 +28,16 @@
  */
 export function chaiTapriRevenue(customers) {
   // Your code here
+
+  if ( customers == null || isNaN(customers) || customers <= 0 || typeof(customers) == 'string' || (customers - Math.trunc(customers)) != 0 ){
+    return  { "totalChai": 0, "totalRevenue": 0 }
+  }
+
+    let tot_rev =  customers<3 ? 0 : Math.trunc( customers/3 ) * 15 
+    tot_rev+= ( customers-Math.trunc(customers/3) ) *10 
+
+    return { "totalChai": customers, "totalRevenue": tot_rev }
 }
+
+
+console.log(chaiTapriRevenue(100))
