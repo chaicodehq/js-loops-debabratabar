@@ -40,4 +40,4 @@ export function chaiTapriRevenue(customers) {
 }
 
 
-console.log(chaiTapriRevenue(100))
+// console.log(chaiTapriRevenue(100))

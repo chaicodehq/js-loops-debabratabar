@@ -38,3 +38,10 @@
 export function rangoli(n) {
   // Your code here
 }
+
+
+  *
+ * *
+* * *
+ * *
+  *  

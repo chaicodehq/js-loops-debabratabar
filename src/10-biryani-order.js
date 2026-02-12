@@ -33,6 +33,24 @@
  *   // Order 10: 2 batches (5 + 5 plates)
  *   // => { totalBatches: 3, totalPlates: 15, ordersProcessed: 2 }
  */
+
+
 export function biryaniBatchProcessor(orders) {
-  // Your code here
+
+  return ( orders== null ||  !Array.isArray(orders) || orders.length==0) ? 
+  { "totalBatches": 0, "totalPlates": 0, "ordersProcessed": 0 } : 
+  { 
+    "totalBatches": orders.reduce( (accumulator, currentValue)  => 
+    (accumulator+  ( ( typeof(currentValue) =='number' &&  currentValue>0 && ( currentValue - Math.trunc(currentValue) == 0 ) ) ? ( currentValue<=5 ? 1 : 
+      ( (currentValue/5) - Math.trunc(currentValue/5) == 0 ? (currentValue/5) : Math.trunc(currentValue/5)+1  )   ) :0 ) ), 0 ), 
+      
+      "totalPlates":  orders.reduce( (accumulator, currentValue)  => (accumulator+ (( typeof(currentValue) =='number' &&  currentValue>0 && ( currentValue - Math.trunc(currentValue) == 0 ) ) ? currentValue : 0) ) , 0 ),
+      
+      "ordersProcessed": orders.reduce((accumulator, currentValue)  => (accumulator+ (( typeof(currentValue) =='number' &&  currentValue>0 && ( currentValue - Math.trunc(currentValue) == 0 ) ) ? 1 :0)) , 0) }
 }
+
+
+
+// console.log(biryaniBatchProcessor([5,10]))
+// console.log(biryaniBatchProcessor([3,3,3]))
+// console.log(biryaniBatchProcessor([3, 0, 2]))
