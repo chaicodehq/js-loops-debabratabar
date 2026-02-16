@@ -44,10 +44,36 @@
 export function calculateEMI(principal, monthlyRate, emi) {
   // Your code here
 
-  if ( principal <=0 || monthlyRate <=0 || emi<=0){
+  if ( principal <=0 || monthlyRate <=0 || emi<=0 || emi<=(principal * monthlyRate)|| typeof principal !='number' || typeof monthlyRate != 'number' || typeof emi != 'number'){
     return { "months": -1, "totalPaid": -1, "totalInterest": -1}
   }
 
-  
+  let res = {months : 0 , totalPaid : 0 , totalInterest : 0 }
+  let interest =0 
+
+  while(  principal >0  ){ 
+      interest = Math.round(principal * monthlyRate)
+    if(principal < interest ){
+         res.months +=1
+    res.totalPaid += principal 
+    res.totalInterest+=interest
+    }
+
+    
+    principal = principal+interest
+    principal-=emi 
+    res.months +=1
+    res.totalPaid += emi 
+    res.totalInterest+=interest
+
+    // console.log(res)
+    // console.log(principal)
+    
+      }
+
+  return res  
 
 }
+
+console.log(calculateEMI(10000, 0.01, 2000))
+calculateEMI(10000 , 0.01 , 2000 )

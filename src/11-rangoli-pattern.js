@@ -37,11 +37,55 @@
  */
 export function rangoli(n) {
   // Your code here
+
+  if( n<=0 || !Number.isInteger(n)){
+    return []
+  }
+
+  let res = []
+  let eachTerm=''
+
+  for ( let i = 1 ; i<=n ; i++){
+      let spaces =  " ".repeat(n-i)
+      // console.log(spaces.length)
+      eachTerm=spaces
+      for ( let j=1 ;j<=i;j++){
+        if( j== i ){
+          eachTerm+='*'
+        }
+        else{
+          eachTerm+="* "
+        }
+      }
+      res.push(eachTerm)
+      eachTerm = ''
+  }
+
+  for ( let i = n-1 ; i>=1 ; i--){
+      let spaces =  " ".repeat(n-i)
+      eachTerm=spaces
+      for ( let j=1 ;j<=i;j++){
+        if( j== i ){
+          eachTerm+='*'
+        }
+        else{
+          eachTerm+="* "
+        }
+      }
+      
+      res.push(eachTerm)
+      eachTerm = ''
+  }
+
+  // console.log(res.length)
+  return res
 }
 
+console.log(rangoli(3))
 
-  *
- * *
-* * *
- * *
-  *  
+
+//   *
+//  * *
+// * * *
+//  * *
+//   *  
