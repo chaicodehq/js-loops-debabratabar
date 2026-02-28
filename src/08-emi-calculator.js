@@ -49,31 +49,34 @@ export function calculateEMI(principal, monthlyRate, emi) {
   }
 
   let res = {months : 0 , totalPaid : 0 , totalInterest : 0 }
-  let interest =0 
+  let interest =0
+  let remaining = principal 
 
-  while(  principal >0  ){ 
-      interest = Math.round(principal * monthlyRate)
-    if(principal < interest ){
-         res.months +=1
-    res.totalPaid += principal 
-    res.totalInterest+=interest
+
+  do {  
+
+    if( remaining< emi){
+      res.months+=1
+      interest = remaining * monthlyRate
+      remaining+=interest
+      res.totalPaid+=remaining
+      remaining=0
+    }else{
+      interest = remaining * monthlyRate
+      remaining+=interest
+      remaining-=emi
+      res.months+=1
+      res.totalPaid+=emi
     }
+    // console.log(`${remaining} ,  ${res.totalPaid} , ${interest} `)
+  }while(remaining>0)
 
-    
-    principal = principal+interest
-    principal-=emi 
-    res.months +=1
-    res.totalPaid += emi 
-    res.totalInterest+=interest
+    res.totalPaid = parseFloat(res.totalPaid.toFixed(2)) 
+    res.totalInterest = parseFloat((res.totalPaid - principal).toFixed(2))
 
-    // console.log(res)
-    // console.log(principal)
-    
-      }
-
-  return res  
-
+    return res 
 }
 
-console.log(calculateEMI(10000, 0.01, 2000))
-calculateEMI(10000 , 0.01 , 2000 )
+console.log(calculateEMI(1000, 0.01, 600))
+console.log(calculateEMI(10000 , 0.01 , 2000 ))
+// calculateEMI(10000 , 0.01 , 2000 )

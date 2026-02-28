@@ -42,161 +42,109 @@
 *   { team: "SRH", played: 1, won: 0, lost: 0, tied: 0, noResult: 1, points: 1 }
  */
 
-function returnIndexOfTeam( result , teamName ){
-
-  // console.log(result)
-
-  for ( let i = 0 ; i<result.length ; i++){
-    if ( teamName === result[i].team ){
-      return i
-    }
-
-  }
-
-  return  -1
-
-}
-
-
-function bubbleSort( res) { 
-  for ( let i =0 ; i < res.length ; i++) { 
-    for ( let j = 1 ; j<res.length ; j++){ 
-      if ( res[i].points < res[j].points){
-        let tmp = res[i]
-        res[i] = res[j]
-        res[j] = tmp
-      }
-      // else if ( res[j].team < res[i].team){
-      //   let tmp = res[i]
-      //   res[i] = res[j]
-      //   res[j] = tmp
-      // }
-      // else{
-      // }
-    }
-
-      
-    
-  }
-
-  return res
-}
-
 export function iplPointsTable(matches) {
   // Your code here
   if ( !Array.isArray(matches) || matches.length==0){
     return []
   }
 
-  let res = []
+  const res = {}
 
-  for ( const match of  matches ){
-    let isTeam1Present = returnIndexOfTeam(res , match.team1)
-    let isTeam2Present = returnIndexOfTeam(res , match.team2)
+  for  ( const match of matches){
 
-    // console.log(isTeam1Present)
-    // console.log(isTeam2Present)
+    //team1 check
+      if( Object.keys(res).findIndex((ele) => (ele === match.team1)) !=-1){
+         let pnt = 0
+        if(match.result == 'win') {
+           if(match.winner ==match.team1){
+            pnt = 2
+           }
+        }
+        else{
+          pnt = 1
+        }
 
+          res[match.team1].played +=1 
+          res[match.team1].won += (match.result == 'win' && match.winner == match.team1) ? 1 : 0
+          res[match.team1].lost +=  (match.result == 'win' && match.winner != match.team1) ? 1: 0 
+          res[match.team1].tied += (match.result == 'tie') ?1 :0
+          res[match.team1].noResult += (match.result == 'no_result') ?1 :0
+          res[match.team1].points +=pnt 
 
-    // team1 process
-    
-    if ( res.length != 0 && isTeam1Present!=-1   ){
-          res[isTeam1Present].played +=1
-
-          if ( match.result =='win'){
-                  if ( match.winner == match.team1 ){  res[isTeam1Present].won+=1  ;  res[isTeam1Present].points+=2 }
-                  else { res[isTeam1Present].lost+=1  }
-
-          }else if (match.result =='tie' ) { 
-                res[isTeam1Present].tied+=1
-                res[isTeam1Present].points+=1
-          }else if (match.result =='no_result' ) { 
-                res[isTeam1Present].noResult+=1
-                res[isTeam1Present].points+=1
-          }
-          else{ 
-
-          }
-
-    }
-    else{ 
-
-      let obj = {}
-
-       if ( match.result =='win'){
-                  if ( match.winner == match.team1 ){  obj = { "team": match.team1, "played": 1, "won": 1, "lost": 0, "tied": 0, "noResult": 0, "points": 2  } }
-                  else { obj = { "team": match.team1, "played": 1, "won": 0, "lost": 1, "tied": 0, "noResult": 0, "points": 0 }  }
-
-          }else if (match.result =='tie' ) { 
-                 obj = { "team": match.team1, "played": 1, "won": 0, "lost": 0, "tied": 1, "noResult": 0, "points": 1 }
-          }else if (match.result =='no_result' ) { 
-                obj = { "team": match.team1, "played": 1, "won": 0, "lost": 0, "tied": 0, "noResult": 1, "points": 1 }
-
-          }
-          else{ 
-
+      }
+      else{
+        let pnt = 0
+        if(match.result == 'win') {
+           if(match.winner ==match.team1){
+            pnt = 2
+           }
+        }
+        else{
+          pnt = 1
+        }
+          res[match.team1] ={ 
+             team: match.team1, played: 1, won: (match.result == 'win' && match.winner == match.team1) ? 1 : 0 , lost: (match.result == 'win' && match.winner != match.team1) ? 1: 0 , tied: (match.result == 'tie') ?1 :0, noResult: (match.result == 'no_result') ?1 :0, points: pnt }
           }
 
-        res.push(obj)
+          // team2 check
+      if( Object.keys(res).findIndex((ele) => (ele === match.team2)) !=-1){
+         let pnt = 0
+        if(match.result == 'win') {
+           if(match.winner ==match.team2){
+            pnt = 2
+           }
+        }
+        else{
+          pnt = 1
+        }
 
-    }
+          res[match.team2].played +=1 
+          res[match.team2].won += (match.result == 'win' && match.winner == match.team2) ? 1 : 0
+          res[match.team2].lost +=  (match.result == 'win' && match.winner != match.team2) ? 1: 0 
+          res[match.team2].tied += (match.result == 'tie') ?1 :0
+          res[match.team2].noResult += (match.result == 'no_result') ?1 :0
+          res[match.team2].points +=pnt 
 
-
-    // team2 process
-     if ( res.length != 0 && isTeam2Present!=-1   ){
-          res[isTeam2Present].played +=1
-
-          if ( match.result =='win'){
-                  if ( match.winner == match.team2 ){  res[isTeam2Present].won+=1  ;  res[isTeam2Present].points+=2 }
-                  else { res[isTeam2Present].lost+=1  }
-
-          }else if (match.result =='tie' ) { 
-                res[isTeam2Present].tied+=1
-                res[isTeam2Present].points+=1
-          }else if (match.result =='no_result' ) { 
-                res[isTeam2Present].noResult+=1
-                res[isTeam2Present].points+=1
+      }
+      else{
+        let pnt = 0
+        if(match.result == 'win') {
+           if(match.winner ==match.team2){
+            pnt = 2
+           }
+        }
+        else{
+          pnt = 1
+        }
+          res[match.team2] ={ 
+             team: match.team2, played: 1, won: (match.result == 'win' && match.winner == match.team2) ? 1 : 0 , lost: (match.result == 'win' && match.winner != match.team2) ? 1: 0 , tied: (match.result == 'tie') ?1 :0, noResult: (match.result == 'no_result') ?1 :0, points: pnt }
           }
-          else{ 
+      }
 
-          }
 
-    }
-    else{ 
-
-      let obj = {}
-
-       if ( match.result =='win'){
-                  if ( match.winner == match.team2 ){  obj = { "team": match.team2, "played": 1, "won": 1, "lost": 0, "tied": 0, "noResult": 0, "points": 2  } }
-                  else { obj = { "team": match.team2, "played": 1, "won": 0, "lost": 1, "tied": 0, "noResult": 0, "points": 0 }  }
-
-          }else if (match.result =='tie' ) { 
-                 obj = { "team": match.team2, "played": 1, "won": 0, "lost": 0, "tied": 1, "noResult": 0, "points": 1 }
-          }else if (match.result =='no_result' ) { 
-                obj = { "team": match.team2, "played": 1, "won": 0, "lost": 0, "tied": 0, "noResult": 1, "points": 1 }
-
-          }
-          else{ 
-
-          }
-
-        res.push(obj)
-
-    }
+      return Object.values(res).toSorted((a,b) => {
+        const nameCompare = a.team.localeCompare(b.team)
+        return  b.points -a.points  || nameCompare
+      })
   }
 
 
 
-  // return res.toSorted((a,b) => a.points - b.points)
-  return bubbleSort(res) 
-  // return res 
+// console.log( iplPointsTable([
+//         { team1: "CSK", team2: "MI", result: "win", winner: "CSK" },
+//         { team1: "RCB", team2: "CSK", result: "win", winner: "CSK" },
+//         { team1: "MI", team2: "RCB", result: "tie" }
+//       ]))
 
-}
 
-
+// console.log(iplPointsTable([{ team1: "KKR", team2: "SRH", result: "no_result" }]));
 
 console.log( iplPointsTable([
         { team1: "CSK", team2: "MI", result: "win", winner: "CSK" },
-        { team1: "RCB", team2: "CSK", result: "win", winner: "CSK" },
-        { team1: "MI", team2: "RCB", result: "win", winner: "MI" }
-      ]))
+        { team1: "RCB", team2: "DC", result: "win", winner: "RCB" },
+        { team1: "CSK", team2: "RCB", result: "tie" },
+        { team1: "MI", team2: "DC", result: "no_result" },
+        { team1: "DC", team2: "CSK", result: "win", winner: "CSK" }
+      ]));
+
+
